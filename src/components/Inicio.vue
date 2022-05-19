@@ -5,14 +5,16 @@
   <div id="opciones">
     <v-row>
       <v-col cols="2">
+       <router-link to="/comics">
         <h1>Comic</h1>
-        <v-img
-          cover
-          class="bg-grey-lighten-2"
-          src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-          aspect-ratio="1"
-        ></v-img>
-
+        </router-link>
+          <v-img
+            cover
+            class="bg-grey-lighten-2"
+            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            aspect-ratio="1"
+          ></v-img>
+        
         <template v-slot:placeholder>
           <div class="d-flex align-center justify-center fill-height">
             <v-progress-circular
