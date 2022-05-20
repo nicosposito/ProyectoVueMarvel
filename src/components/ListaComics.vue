@@ -1,30 +1,30 @@
 <template>
-<span class="bg"></span>
-  <v-row>
-    <v-col
+  <span class="bg"></span>
+
+  <b-row align-h="center">
+    <b-col
       cols="12"
       sm="6"
       md="4"
-      lg="3"
       v-for="comic in comics"
       :key="comic.title"
+      style="width: inherit; padding-bottom: 20px"
     >
-      <v-card class="text-center"  height="450px"
-            width=200px>
-        
-          <v-img
-            class="bg-grey-lighten-2"
-            :src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
-            height="300px"
-            width="200px"
-            cover
-          ></v-img>
-        <v-card-text style="overflow-y: auto; height: 120px">
-          <div id="titulo" class="text-subtitle-1">{{ comic.title }}</div>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+      <b-card
+        :img-src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
+        img-alt="Img"
+        img-height="350"
+        img-width="200"
+        style="width: 250px; height: 480px"
+      >
+        <div class="center">
+          <p style="text-align: center">
+            {{ comic.title }}
+          </p>
+        </div>
+      </b-card>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
@@ -46,7 +46,9 @@ export default {
   methods: {
     getPersonajes() {
       axios
-        .get(`http://gateway.marvel.com/v1/public/comics?apikey=${publicKey}`)
+        .get(
+          `http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=${publicKey}`
+        )
         .then((result) => {
           result.data.data.results.forEach((item) => {
             this.comics.push(item);
@@ -75,10 +77,23 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background: url(https://fondosmil.com/fondo/32052.jpg)
-    no-repeat center center;
+  background: url(https://fondosmil.com/fondo/32052.jpg) no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1.1);
+}
+
+.card-text {
+  height: 80px;
+}
+
+#center {
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
+  padding: 10px 0;
+  text-align: center;
 }
 </style>
