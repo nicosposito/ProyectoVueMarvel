@@ -1,5 +1,81 @@
 <template>
+  <!--Fondo-->
   <span class="bg"></span>
+
+  <!--Filtros Principales-->
+  <div class="itemsCentrados">
+    <b-card class="cardBusqueda">
+      <b-row>
+        <b-col class="columna">
+          <b-form-group label="Titulo:" label-for="titulo">
+            <b-form-input
+              v-model="titulo"
+              id="titulo"
+              size="sm"
+              placeholder="Buscar por título"
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col class="columna">
+          <b-form-group label="Ordenar por:" label-for="orden">
+            <b-form-select
+              id="orden"
+              v-model="selectOrden"
+              :options="orden"
+              size="sm"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+
+        <div class="divbotonfiltros">
+          <b-button pill variant="dark" v-b-toggle.collapse-2
+            >Mas filtros <font-awesome-icon icon="filter"
+          /></b-button>
+        </div>
+      </b-row>
+
+      <!--Collapse [Filtros secundarios]-->
+      <b-collapse id="collapse-2">
+        <b-row>
+          <b-col class="columna">
+            <b-form-group label="Personajes:" label-for="personajes">
+              <b-form-select
+                id="personajes"
+                v-model="idPersonaje"
+                :options="personajes"
+              ></b-form-select>
+            </b-form-group>
+
+            <b-form-group label="Creadores:" label-for="creadores">
+              <b-form-select
+                id="creadores"
+                v-model="idCreador"
+                :options="creadores"
+              ></b-form-select>
+            </b-form-group>
+          </b-col>
+
+          <b-col class="columna">
+            <b-form-group label="Rango de fecha:" label-for="rangoFecha">
+              <b-form-select
+                id="rangoFecha"
+                v-model="selectRangoFecha"
+                :options="rangoFecha"
+              ></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-collapse>
+
+      <div class="divbotonbuscar">
+        <b-button @click="busqueda()" pill variant="danger"
+          >Buscar <font-awesome-icon icon="search"
+        /></b-button>
+      </div>
+    </b-card>
+  </div>
+
+  <!--- Comics !-->
 
   <b-row align-h="center">
     <b-col
@@ -36,15 +112,94 @@ export default {
   data() {
     return {
       comics: [],
+      personajes: [
+        {
+          text: "Seleccione personaje",
+          value: "",
+        },
+      ],
+      creadores: [
+        {
+          text: "Seleccione creador",
+          value: "",
+        },
+      ],
+      orden: [
+        {
+          text: "Seleccione el orden",
+          value: "",
+        },
+        {
+          text: "Titulo (A-Z)",
+          value: "title",
+        },
+        {
+          text: "Titulo (Z-A)",
+          value: "-title",
+        },
+        {
+          text: "Fecha de salida (Mas antiguos)",
+          value: "onsaleDate",
+        },
+        {
+          text: "Fecha de salida (Mas nuevos)",
+          value: "-onsaleDate",
+        },
+      ],
+      formato: [
+        {
+          text: "Seleccione el formato",
+          value: "",
+        },
+        {
+          text: "Comic",
+          value: "comic",
+        },
+        {
+          text: "Coleccion",
+          value: "collection",
+        },
+      ],
+      rangoFecha: [
+        {
+          text: "Seleccione un rango",
+          value: "",
+        },
+        {
+          text: "Última semana",
+          value: "lastWeek",
+        },
+        {
+          text: "Esta semana",
+          value: "thisWeek",
+        },
+        {
+          text: "Siguiente semana",
+          value: "nextWeek",
+        },
+        {
+          text: "Este mes",
+          value: "thisMonth",
+        },
+      ],
+
+      selectOrden: "title",
+      selectFormato: "",
+      selectRangoFecha: "",
+      titulo: "",
+      idPersonaje: "", 
+      idCreador: "", 
     };
   },
 
   mounted() {
+    this.getComics();
     this.getPersonajes();
+    this.getCreadores();
   },
 
   methods: {
-    getPersonajes() {
+    getComics() {
       axios
         .get(
           `http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=${publicKey}`
@@ -53,7 +208,84 @@ export default {
           result.data.data.results.forEach((item) => {
             this.comics.push(item);
           });
-          console.log(this.comics);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getPersonajes() {
+      axios
+        .get(
+          `http://gateway.marvel.com/v1/public/characters?orderBy=name&apikey=${publicKey}`
+        )
+        .then((result) => {
+          result.data.data.results.forEach((item) => {
+            const personaje = {
+              text: item.name,
+              value: item.id,
+            };
+            this.personajes.push(personaje);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getCreadores() {
+      axios
+        .get(
+          `http://gateway.marvel.com/v1/public/creators?orderBy=firstName&apikey=${publicKey}`
+        )
+        .then((result) => {
+          result.data.data.results.forEach((item) => {
+            const creador = {
+              text: item.fullName,
+              value: item.id,
+            };
+            this.creadores.push(creador);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    busqueda() {
+      let consulta = "";
+      if (this.titulo != "") {
+        consulta = "title=" + this.titulo;
+      }
+      if (this.selectOrden != "") {
+        consulta = consulta + "&orderBy=" + this.selectOrden;
+      }
+      if (this.selectFormato != "") {
+        consulta = consulta + "&formatType=" + this.selectFormato;
+      }
+      if (this.selectRangoFecha != "") {
+        consulta = consulta + "&dateDescriptor=" + this.selectRangoFecha;
+      }
+
+      if (this.idCreador != "") {
+        consulta = consulta + "&creators=" + this.idCreador;
+      }
+
+      if (this.idPersonaje != "") {
+        consulta = consulta + "&characters=" + this.idPersonaje;
+      }
+
+      //si no funciona con el & delante buscar para sacarlo de la cadena.
+      console.log(consulta); //Quitar
+      this.comics = [];
+      axios
+        .get(
+          `http://gateway.marvel.com/v1/public/comics?${consulta}&apikey=${publicKey}`
+        )
+        .then((result) => {
+          result.data.data.results.forEach((item) => {
+            this.comics.push(item);
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -64,8 +296,8 @@ export default {
 </script>
 
 
-
 <style scoped>
+
 #titulo {
   align-items: center;
   justify-content: center;
@@ -74,26 +306,47 @@ export default {
 .bg {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  background: url(https://fondosmil.com/fondo/32052.jpg) no-repeat center center;
+  background: url(../assets/marvelFondo.jpg) no-repeat center center;
   background-size: cover;
   background-color: black;
   transform: scale(1.1);
 }
 
-.card-text {
-  height: 80px;
-}
-
-#center {
-  align-items: center;
+.itemsCentrados {
+  display: flex;
   justify-content: center;
 }
 
 .center {
   padding: 10px 0;
   text-align: center;
+}
+
+.columna {
+  float: left;
+  width: 50%;
+}
+.divbotonfiltros {
+  flex-direction: column;
+  display: flex;
+}
+
+.divbotonbuscar {
+  flex-direction: column;
+  display: flex;
+  margin-top: 10px;
+}
+
+.cardBusqueda {
+  width: fit-content;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#collapse-2 {
+  margin-top: 15px;
 }
 </style>
