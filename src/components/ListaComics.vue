@@ -144,22 +144,22 @@
         md="4"
         v-for="comic in comics"
         :key="comic.title"
-        style="width: inherit; padding-bottom: 20px"
-      >
-    
-        <b-card
-          :img-src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
-          img-alt="Img"
-          img-height="350"
-          img-width="200"
-          style="width: 250px; height: 480px"
-        >
-          <div class="center">
-            <p style="text-align: center">
-              {{ comic.title }}
-            </p>
-          </div>
-        </b-card>
+        style="width: inherit; padding-bottom: 20px">
+        <router-link :to ="{name: 'comicinfo', params: {id: comic.id}}">
+          <b-card
+            :img-src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
+            img-alt="Img"
+            img-height="350"
+            img-width="200"
+            style="width: 250px; height: 480px"
+          >
+            <div class="center">
+              <p style="text-align: center">
+                {{ comic.title }}
+              </p>
+            </div>
+          </b-card>
+        </router-link>
       </b-col>
     </b-row>
   </div>
@@ -374,7 +374,7 @@ export default {
         });
     },
 
-   /* verInfoComic(){
+    /* verInfoComic(){
       this.$router.push(path: '/comics/:nombre', params {nombre: })
     }
     */

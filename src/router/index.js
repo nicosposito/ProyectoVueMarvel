@@ -14,7 +14,7 @@ const routes = [
     component: ListaComicsView,
   },
   {
-    path: '/comics/:nombre',
+    path: '/comics/:id',
     name: 'comicinfo',
     component: ComicInfo,
   },
