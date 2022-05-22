@@ -1,5 +1,5 @@
 <template>
-    
+    <h1> Info comic :D</h1>
 </template>
 
 <script>

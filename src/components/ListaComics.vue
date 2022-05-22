@@ -146,6 +146,7 @@
         :key="comic.title"
         style="width: inherit; padding-bottom: 20px"
       >
+    
         <b-card
           :img-src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
           img-alt="Img"
@@ -358,7 +359,6 @@ export default {
         }
       }
       this.comics = [];
-      console.log(consulta); //Borrar
       axios
         .get(
           `http://gateway.marvel.com/v1/public/comics?${consulta}&apikey=${publicKey}`
@@ -373,6 +373,11 @@ export default {
           console.log(error);
         });
     },
+
+   /* verInfoComic(){
+      this.$router.push(path: '/comics/:nombre', params {nombre: })
+    }
+    */
   },
 };
 </script>
