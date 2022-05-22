@@ -14,7 +14,7 @@
         <font-awesome-icon icon="home" />
       </b-button>
       <v-spacer></v-spacer>
-      <h1>Ficha tecnica</h1>
+      <h1>Ficha técnica</h1>
       <v-spacer></v-spacer>
       <b-button class="botonNav" squared variant="light"
         >Volver al inicio
@@ -23,23 +23,82 @@
     </b-nav>
   </div>
 
+  <!-- Informacion -->
   <b-container class="info" v-for="comic in infoComic" :key="comic.id">
     <h1></h1>
-    <div>
-      <h1>{{ comic.title }}</h1>
+    <div id="tituloComic" class="itemsCentrados">
+      <h1 >{{ comic.title }}</h1>
     </div>
-    <b-row>
-      <b-col>
+     <hr/>
+    <b-row align-h="center">
+      <b-col class="columna" cols="12" sm="6" md="4">
         <b-img
           :src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
           fluid
+          v-bind="mainProps"
         ></b-img>
       </b-col>
-      <h3>Descripcion:</h3>
-      <label>{{ comic.description }}</label>
-      <label> Formato: {{ comic.format }}</label>
-      <label> Número de paginas: {{ comic.pageCount }}</label>
-      <b-col> </b-col>
+      <b-col>
+        <h3>Descripción:</h3>
+        <label> {{ comic.description }} <br /></label>
+        <!-- HTML Codes for Symbols and Punctuation !-->
+        <hr />
+        <label> Formato: {{ comic.format }}</label> <br />
+        <hr />
+        <label> Número de páginas: {{ comic.pageCount }}<br /></label>
+        <hr />
+        <div>
+          <b-button
+            v-for="tipo in comic.urls"
+            :key="tipo.type"
+            :href="tipo.url"
+            >{{ tipo.type }}</b-button
+          >
+        </div>
+        <hr />
+        <label>
+          Serie:
+          {{ comic.series.name }}
+        </label>
+        <hr />
+        <label>
+          Fechas de salida:
+          <p v-for="fecha in comic.dates" :key="fecha.type">
+            {{ fecha.type }} {{ fecha.date }}
+          </p></label
+        >
+        <hr />
+
+        <label>
+          Precio:
+          <p v-for="precio in comic.prices" :key="precio.type">
+            {{ precio.type }}: {{ precio.price }}
+          </p></label
+        >
+ 
+      </b-col>
+    </b-row>
+           <hr />
+    <b-row class="enLinea">
+      <h1>Creadores</h1>
+      <b-col
+        class="columna"
+        v-for="creador in comic.creators.items"
+        :key="creador.name"
+      >
+        <b-card 
+          :title="creador.name"
+          img-src="https://picsum.photos/600/300/?image=25"
+          img-top
+           style="max-width: 20rem; margin-bottom: 20px"
+        >
+          <b-card-text>
+            {{creador.role}}
+          </b-card-text>
+
+          <b-button href="#" variant="primary">Go somewhere</b-button>
+        </b-card>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -54,6 +113,11 @@ export default {
     return {
       id: null,
       infoComic: [],
+      mainProps: {
+        blankColor: "#bbb",
+        width: 350,
+        height: 450,
+      },
     };
   },
   mounted() {
@@ -81,6 +145,16 @@ export default {
 </script>
 
 <style scoped>
+
+
+.itemsCentrados {
+  display: flex;
+  justify-content: center;
+}
+
+#tituloComic{
+  margin-bottom: 20px;
+}
 .bg {
   width: 100%;
   height: 100%;
@@ -101,16 +175,27 @@ export default {
 
 .botonNav {
   width: 145px;
-
 }
 
 * {
   font-family: komikax;
 }
 
-.info{
-  margin-top:20px;
+.info {
+   padding-top: 10px;
+  margin-top: 20px;
   position: relative;
-    background: white;
+  background: white;
 }
+
+.columna {
+  float: left;
+  width: 50%;
+}
+
+.enLinea {
+  display: inline-block;
+}
+
+
 </style>

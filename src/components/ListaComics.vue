@@ -437,10 +437,12 @@ export default {
   background: #dc3545;
   position: relative;
   width: 100%;
+  height: 62px;
 }
 
 .botonNav {
   width: 145px;
+  height: 62px;
 }
 
 * {
