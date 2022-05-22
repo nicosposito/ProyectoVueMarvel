@@ -19,3 +19,12 @@ export default {
 
 };
 </script>
+
+
+<style scoped>
+
+@font-face {
+    font-family: komikax;
+    src: url('assets/KOMIKAX_.ttf');
+}
+</style>
