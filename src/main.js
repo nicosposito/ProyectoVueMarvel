@@ -9,10 +9,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faFilter, faHome, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faFilter, faHome, faArrowRight, faBook, faCircleInfo, faCartShopping, faBookOpen, faMobileScreenButton, faCalendar, faLaptop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch, faFilter,faHome, faArrowRight);
+library.add(faSearch, faFilter, faHome, faArrowRight, faBook, faCircleInfo, faCartShopping, faBookOpen, faMobileScreenButton, faCalendar, faLaptop);
 
 
 import VueLoading from 'vue-loading-overlay';
@@ -24,7 +24,7 @@ loadFonts()
 createApp(App)
   .use(router)
   .use(vuetify)
-  .use (BootstrapVue3)
+  .use(BootstrapVue3)
   .component('font-awesome-icon', FontAwesomeIcon)
   .component("vue-loading", VueLoading)
   .mount('#app');

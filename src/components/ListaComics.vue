@@ -144,8 +144,12 @@
         md="4"
         v-for="comic in comics"
         :key="comic.title"
-        style="width: inherit; padding-bottom: 20px">
-        <router-link :to ="{name: 'comicinfo', params: {id: comic.id}}">
+        style="width: inherit; padding-bottom: 20px"
+      >
+        <router-link
+          :to="{ name: 'comicinfo', params: { id: comic.id } }"
+          style="text-decoration: none; color: inherit"
+        >
           <b-card
             :img-src="comic.thumbnail.path + '.' + comic.thumbnail.extension"
             img-alt="Img"
@@ -272,9 +276,9 @@ export default {
   },
 
   mounted() {
-    this.getComics();
     this.getPersonajes();
     this.getCreadores();
+    this.getComics();
   },
 
   methods: {
@@ -373,11 +377,6 @@ export default {
           console.log(error);
         });
     },
-
-    /* verInfoComic(){
-      this.$router.push(path: '/comics/:nombre', params {nombre: })
-    }
-    */
   },
 };
 </script>
