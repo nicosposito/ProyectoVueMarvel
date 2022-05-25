@@ -72,7 +72,7 @@
         </label>
         <hr />
         <!--Fechas-->
-        <div class="text-center mb-2" >
+        <div class="text-center mb-2">
           <label> Fechas de salida</label>
         </div>
         <b-row>
