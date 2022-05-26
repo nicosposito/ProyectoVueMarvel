@@ -4,7 +4,12 @@
 
   <!--Inicio-->
   <div>
-    <h1>Marvel app with vue </h1>
+    <b-img
+        :src=urlLogo
+        fluid
+        v-bind="imgOpcProps"
+        class="centerImg"
+      ></b-img>
   </div>
   <b-row align-h="center">
     <b-col
@@ -51,13 +56,13 @@ export default {
       },
       logoProps: {
         blankColor: "#bbb",
-        width: 450,
-        height: 550,
+        width: 350,
+        height: 450,
       },
     };
   },
   setup() {
-    const urlLogo = require("./assets/logo.png");
+    const urlLogo = require("@/assets/MarvelComics.png");
     return { urlLogo };
   },
   methods: {
@@ -108,5 +113,9 @@ h1 {
 
 * {
   font-family: komikax;
+}
+
+.centerImg {
+  margin-left: auto;
 }
 </style>
