@@ -440,7 +440,7 @@ export default {
 }
 
 .botonNav {
-  width: 145px;
+  width: 155px;
   height: 62px;
 }
 

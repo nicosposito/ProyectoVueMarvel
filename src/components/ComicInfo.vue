@@ -86,7 +86,8 @@
           >
             <p>
               <font-awesome-icon icon="calendar" />
-              {{ traducirSalidas(fecha.type) }} {{ soloFecha(fecha.date) }}
+              {{ traducirSalidas(fecha.type) }} <br />
+              {{ soloFecha(fecha.date) }}
             </p>
           </b-col>
         </b-row>
@@ -163,22 +164,27 @@
         :key="pj.nombre"
         style="width: inherit"
       >
-        <div class="card cardPersonajes text-center" data-v-63596129="">
+        <div class="card cardPersonajes text-center">
           <img
-            src="http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg"
+            :src="pj.imagen"
             alt="Image"
             height="200"
             width="200"
             class="card-img-top"
           />
-          <div class="card-body">
-            <h4 class="card-title">Spider-Man (Peter Parker)</h4>
+          <div class="card-body" >
+            <h4 class="card-title">{{ pj.nombre }}</h4>
             <a
               class="btn btn-danger"
               href="#"
               role="button"
-              target="_self"
-              data-v-63596129=""
+              style="
+                position: absolute;
+                margin-left: -50px;
+                left: 50%;
+                width: 100px;
+                bottom: 0px;
+              "
               >Saber más</a
             >
           </div>
@@ -216,8 +222,6 @@
           <b-card-text class="text-center">
             {{ creador.role }}
           </b-card-text>
-
-          <b-button href="#" variant="danger">Saber más</b-button>
         </b-card>
       </b-col>
       <!--Si no hay-->
@@ -344,7 +348,7 @@ export default {
 }
 
 .botonNav {
-  width: 145px;
+  width: 155px;
 }
 
 * {
@@ -394,7 +398,7 @@ export default {
 
 .cardPersonajes {
   width: 200px;
-  max-height: fit-content;
+  height: 370px;
   margin-bottom: 20px;
   align-items: center;
 }
