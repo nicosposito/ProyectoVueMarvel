@@ -55,7 +55,7 @@
             v-b-toggle.collapse-2
             @click="filtrosAdiccionales = !filtrosAdiccionales"
           >
-            <span v-if="!filtrosAdiccionales">Mas filtros </span>
+            <span v-if="!filtrosAdiccionales">Más filtros </span>
 
             <span v-if="filtrosAdiccionales">Menos filtros </span>
             <font-awesome-icon icon="filter"

@@ -23,7 +23,11 @@
       <v-spacer></v-spacer>
       <h1>Ficha técnica</h1>
       <v-spacer></v-spacer>
-      <b-button class="botonNav" squared variant="light"
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="this.$router.push('/')"
         >Volver al inicio
         <font-awesome-icon icon="home" />
       </b-button>
@@ -172,19 +176,12 @@
             width="200"
             class="card-img-top"
           />
-          <div class="card-body" >
+          <div class="card-body">
             <h4 class="card-title">{{ pj.nombre }}</h4>
             <a
-              class="btn btn-danger"
+              class="btn btn-danger botonSaberMas"
               href="#"
               role="button"
-              style="
-                position: absolute;
-                margin-left: -50px;
-                left: 50%;
-                width: 100px;
-                bottom: 0px;
-              "
               >Saber más</a
             >
           </div>
@@ -401,5 +398,13 @@ export default {
   height: 370px;
   margin-bottom: 20px;
   align-items: center;
+}
+
+.botonSaberMas {
+  position: absolute;
+  margin-left: -75px;
+  left: 50%;
+  width: 150px;
+  bottom: 10px;
 }
 </style>
