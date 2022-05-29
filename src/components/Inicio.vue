@@ -27,6 +27,7 @@
           v-if="opc.nombre == 'Comics'"
           slide
           ref="Comics"
+          img-width="200"
           img-height="350"
           :interval="3000"
         >
@@ -63,11 +64,24 @@
       </router-link>
     </b-col>
 
-    <b-col cols="12" sm="6" md="4" class="columnaOpcion">
-      <div>
-        
+    <b-col cols="12" sm="6" md="4" class="columnaOpcion" v-b-modal.modal-1>
+      <div class="identidad">
+        <h3 class="titulo">Tu Identidad</h3>
+        <h3 class="tituloInferior">Secreta</h3>
       </div>
-      <h1>PlaceHolder</h1>
+      <b-modal id="modal-1" title="Conoce tu identidad secreta!!!">
+      <!--
+      
+      -Carrousel pasando las img de los personajes rapido
+      -Boton go y stop
+      -loading screen
+      -aparezca img personaje con botones de buscar comics y/o info del personaje 
+      
+      -->
+
+
+      </b-modal>
+      
     </b-col>
   </b-row>
 </template>
@@ -172,9 +186,9 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.titulo {
   text-align: center;
-  color: white;
+  color: black;
 }
 
 #opciones {
@@ -218,11 +232,30 @@ h1 {
   left: -15%;
   width: 247px;
   bottom: 300%;
-  border-bottom-color: red;
-  border-top-color: red;
+  border-bottom-color: #f0131e;
+  border-top-color: #f0131e;
   border-width: 4px;
-  border-style: groove;
+  border-style: solid;
   border-left: none;
   border-right: none;
+}
+
+.identidad {
+  width: 200px;
+  height: 350px;
+  background: url(http://192.168.1.22:8080/img/signoPregunta.5b1a9484.png)
+    no-repeat;
+  background-position-y: center;
+  background-color: #f0131e;
+  background-size: contain;
+  width: auto;
+}
+
+.tituloInferior {
+  bottom: 0;
+  position: absolute;
+  width: 119px;
+  margin-left: 59.5px;
+  color: black;
 }
 </style>
