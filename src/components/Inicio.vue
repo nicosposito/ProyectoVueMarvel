@@ -37,7 +37,7 @@
             :class="img.class"
           >
             <b-row class="etiquetaOpc">
-              <h1>{{ opc.nombre }}</h1>
+              <h3>{{ opc.nombre }}</h3>
             </b-row>
           </b-carousel-slide>
         </b-carousel>
@@ -64,6 +64,9 @@
     </b-col>
 
     <b-col cols="12" sm="6" md="4" class="columnaOpcion">
+      <div>
+        
+      </div>
       <h1>PlaceHolder</h1>
     </b-col>
   </b-row>
@@ -211,5 +214,15 @@ h1 {
 
 .etiquetaOpc {
   background: black;
+  position: absolute;
+  left: -15%;
+  width: 247px;
+  bottom: 300%;
+  border-bottom-color: red;
+  border-top-color: red;
+  border-width: 4px;
+  border-style: groove;
+  border-left: none;
+  border-right: none;
 }
 </style>
