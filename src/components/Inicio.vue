@@ -69,19 +69,34 @@
         <h3 class="titulo">Tu Identidad</h3>
         <h3 class="tituloInferior">Secreta</h3>
       </div>
-      <b-modal id="modal-1" title="Conoce tu identidad secreta!!!">
-      <!--
-      
+      <b-modal
+        id="modal-1"
+        class="modalIS"
+        title="Conoce tu identidad secreta!!!"
+      >
+        <b-carousel
+          slide
+          ref="Comics"
+          img-width="100"
+          img-height="100"
+          :interval="3000"
+        >
+          <b-carousel-slide
+            v-for="img in imgComics"
+            :key="img.index"
+            :img-src="img.img"
+            :class="img.class"
+          >
+          </b-carousel-slide>
+        </b-carousel>
+
+        <!--
       -Carrousel pasando las img de los personajes rapido
       -Boton go y stop
       -loading screen
-      -aparezca img personaje con botones de buscar comics y/o info del personaje 
-      
+      -aparezca img personaje con botones de buscar comics y/o info del personaje
       -->
-
-
       </b-modal>
-      
     </b-col>
   </b-row>
 </template>
@@ -243,8 +258,7 @@ export default {
 .identidad {
   width: 200px;
   height: 350px;
-  background: url(http://192.168.1.22:8080/img/signoPregunta.5b1a9484.png)
-    no-repeat;
+  background: url(../assets/signoPregunta.png) no-repeat;
   background-position-y: center;
   background-color: #f0131e;
   background-size: contain;
@@ -257,5 +271,9 @@ export default {
   width: 119px;
   margin-left: 59.5px;
   color: black;
+}
+
+.modalIS {
+  font-family: komikax !important
 }
 </style>
