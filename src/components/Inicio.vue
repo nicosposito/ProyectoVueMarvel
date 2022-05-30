@@ -64,22 +64,16 @@
       </router-link>
     </b-col>
 
-    <b-col cols="12" sm="6" md="4" class="columnaOpcion" v-b-modal.modal-1>
+ 
+    <b-col cols="12" sm="6" md="4" class="columnaOpcion">
+      <router-link to="identidadSecreta" style="text-decoration: none; color: inherit">
       <div class="identidad">
         <h3 class="titulo">Tu Identidad</h3>
         <h3 class="tituloInferior">Secreta</h3>
       </div>
-    
-
-        <!--
-      -Carrousel pasando las img de los personajes rapido
-      -Boton go y stop
-      -loading screen
-      -aparezca img personaje con botones de buscar comics y/o info del personaje
-      -->      
-
-      
+        </router-link>
     </b-col>
+
   </b-row>
 </template>
 

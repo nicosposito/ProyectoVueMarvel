@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ListaComicsView from '../views/ListaComicsView.vue'
 import ComicInfo from '../views/ComicInfoView.vue'
 import ListaPersonajesView from '../views/ListaPersonajesView.vue'
+import IdentidadSecrectaView from '../views/IdentidadSecretaView.vue'
 const routes = [
   {
     path: '/',
@@ -24,6 +25,11 @@ const routes = [
     name: 'personajes',
     component: ListaPersonajesView,
   },
+  {
+    path: '/identidadSecreta',
+    name: 'identidadSecrea',
+    component: IdentidadSecrectaView,
+  }
 
 ]
 
