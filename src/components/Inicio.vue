@@ -17,7 +17,7 @@
       cols="12"
       sm="6"
       md="4"
-      class="columnaOpcion"
+      class="columnaOpcion mb-4"
       v-for="opc in opciones"
       :key="opc.nombre"
     >
@@ -242,7 +242,7 @@ export default {
 }
 
 .tituloInferior {
-  bottom: 0;
+  bottom: 20px;
   position: absolute;
   width: 119px;
   margin-left: 59.5px;

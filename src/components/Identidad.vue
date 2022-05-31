@@ -1,14 +1,35 @@
 <template>
   <!-- Fondo -->
+  <span class="bg"></span>
 
-  <b-container>
-    <h1>Descubre tu identidad secreta</h1>
+  <div>
+    <b-nav class="nav">
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="this.$router.push('/')"
+        >Volver al inicio
+        <font-awesome-icon icon="home" />
+      </b-button>
+      <v-spacer></v-spacer>
+      <h1>Descubre tu identidad secreta</h1>
+      <v-spacer></v-spacer>
+      <b-button class="botonNav" squared variant="light"
+        >Ir a Personajes
+        <font-awesome-icon icon="arrow-right" />
+      </b-button>
+    </b-nav>
+  </div>
+
+  <b-container class="containerCenter">
     <div v-if="!pedirPj">
       <b-carousel
         ref="Personajes"
         img-width="200"
         img-height="350"
-        :interval="3000"
+        :interval="100"
+        class="carrouselPj"
       >
         <b-carousel-slide
           v-for="personaje in listaPersonajes"
@@ -18,28 +39,24 @@
         >
         </b-carousel-slide>
       </b-carousel>
-      <div>
-        <b-button @click="obtenerPersonajeRandom"> Revelar identidad </b-button>
+      <div class="mt-4">
+        <b-button variant="danger" @click="obtenerPersonajeRandom()">
+          Revelar identidad
+        </b-button>
       </div>
     </div>
-    <div v-if="pedirPj">
-      <b-img
-        :src="personajeObtenido.img"
-        fluid
-        img-width="200"
-        img-height="350"
-      >
-      </b-img>
-      <b-button>Ver comics</b-button>
-      <b-button>Ver información</b-button>
+    <div v-if="pedirPj" class="mt-2">
+      <div class="carrouselPj">
+        <b-img :src="personajeObtenido.img" v-bind="mainProps"> </b-img>
+      </div>
+      <div class="mt-4">
+        <h1 id="pjNombre">Eres {{ personajeObtenido.nombre }} !!!</h1>
+        <div class="mt-4">
+          <b-button variant="danger" class="mr-1">Ver comics</b-button>
+          <b-button variant="primary">Ver información</b-button>
+        </div>
+      </div>
     </div>
-
-    <!--
-      -Carrousel pasando las img de los personajes rapido
-      -Boton go y stop
-      -loading screen
-      -aparezca img personaje con botones de buscar comics y/o info del personaje
-      -->
   </b-container>
 </template>
 <script>
@@ -53,6 +70,11 @@ export default {
       isLoading: true,
       personajeObtenido: "",
       pedirPj: false,
+
+      mainProps: {
+        width: 300,
+        height: 350,
+      },
     };
   },
   mounted() {
@@ -86,8 +108,9 @@ export default {
     },
     obtenerPersonajeRandom() {
       const random = Math.floor(Math.random() * this.listaPersonajes.length);
-      this.personajeObtenido = random;
+      this.personajeObtenido = this.listaPersonajes[random];
       this.pedirPj = true;
+      console.log("entre");
     },
   },
 };
@@ -104,5 +127,36 @@ export default {
   background-size: cover;
   background-color: black;
   transform: scale(1.1);
+}
+
+.containerCenter {
+  text-align: center;
+  position: relative;
+}
+
+.carrouselPj {
+  width: 300px;
+  margin: auto;
+}
+
+* {
+  font-family: komikax;
+}
+
+.botonNav {
+  width: 155px;
+  height: 62px;
+}
+
+.nav {
+  background: #dc3545;
+  position: relative;
+  width: 100%;
+  height: 62px;
+  margin-bottom: 20px;
+}
+
+#pjNombre {
+  color: #dc3545;
 }
 </style>
