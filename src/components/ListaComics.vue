@@ -9,7 +9,10 @@
         class="botonNav"
         squared
         variant="light"
-        @click="this.$router.push('/')"
+        @click="
+          reiniciarBusqueda();
+          this.$router.push('/');
+        "
         >Volver al inicio
         <font-awesome-icon icon="home" />
       </b-button>
@@ -119,7 +122,7 @@
             variant="danger"
             @click="
               isLoading = !isLoading;
-              getComics();
+              reiniciarBusqueda();
             "
             >Ver comics iniciales</b-button
           >
@@ -262,8 +265,6 @@ export default {
           value: "collection",
         },
       ],
-      mostrarFiltros: ["Mas filtros", "Ocultar filtros"],
-
       selectOrden: "title",
       selectFormato: "",
       selectRangoFecha: "",
@@ -279,14 +280,27 @@ export default {
     this.getPersonajes();
     this.getCreadores();
     this.getComics();
+    localStorage.clear();
   },
 
   methods: {
     getComics() {
+      let consulta = localStorage.getItem("consultaComic");
+      if (consulta == null) {
+        consulta =
+          "http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=" +
+          publicKey;
+      } else {
+        var filtrosGuardados = JSON.parse(localStorage.getItem("filtros"));
+        this.titulo = filtrosGuardados[0];
+        this.selectOrden = filtrosGuardados[1];
+        this.selectFormato = filtrosGuardados[2];
+        this.selectRangoFecha = filtrosGuardados[3];
+        this.idCreador = filtrosGuardados[4];
+        this.idPersonaje = filtrosGuardados[5];
+      }
       axios
-        .get(
-          `http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=${publicKey}`
-        )
+        .get(`${consulta}`)
         .then((result) => {
           result.data.data.results.forEach((item) => {
             this.comics.push(item);
@@ -339,6 +353,8 @@ export default {
     busqueda() {
       this.isLoading = true;
       let consulta = "";
+      let filtros = Array(5);
+
       if (this.titulo != "") {
         consulta = "titleStartsWith=" + this.titulo;
       }
@@ -372,10 +388,36 @@ export default {
             this.comics.push(item);
           });
           this.isLoading = false;
+          localStorage.setItem(
+            "consultaComic",
+            "http://gateway.marvel.com/v1/public/comics?" +
+              consulta +
+              "&apikey=" +
+              publicKey
+          );
+          filtros[0] = this.titulo;
+          filtros[1] = this.selectOrden;
+          filtros[2] = this.selectFormato;
+          filtros[3] = this.selectRangoFecha;
+          filtros[4] = this.idCreador;
+          filtros[5] = this.idPersonaje;
+          localStorage.setItem("filtros", JSON.stringify(filtros));
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    reiniciarBusqueda() {
+      localStorage.clear();
+      this.getComics();
+      this.selectOrden = "title";
+      this.selectFormato = "";
+      this.selectRangoFecha = "";
+      this.titulo = "";
+      this.idPersonaje = "";
+      this.idCreador = "";
+      this.filtrosAdiccionales = false;
     },
   },
 };
