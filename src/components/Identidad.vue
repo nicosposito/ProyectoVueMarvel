@@ -52,7 +52,9 @@
       <div class="mt-4">
         <h1 id="pjNombre">Eres {{ personajeObtenido.nombre }} !!!</h1>
         <div class="mt-4">
-          <b-button variant="danger" class="mr-1">Ver comics</b-button>
+          <b-button variant="danger" class="mr-1" @click="infoComics()"
+            >Ver comics</b-button
+          >
           <b-button variant="primary">Ver información</b-button>
         </div>
       </div>
@@ -85,7 +87,7 @@ export default {
     getPersonajes() {
       axios
         .get(
-          `http://gateway.marvel.com/v1/public/characters?orderBy=name&limit=100&apikey=${publicKey}`
+          `http://gateway.marvel.com/v1/public/characters?orderBy=name&apikey=${publicKey}`
         )
         .then((result) => {
           var tipo = "active";
@@ -94,6 +96,7 @@ export default {
               img: item.thumbnail.path + "." + item.thumbnail.extension,
               nombre: item.name,
               class: tipo,
+              id: item.id,
             };
             this.listaPersonajes.push(pimg);
             if (tipo == "active") {
@@ -110,7 +113,20 @@ export default {
       const random = Math.floor(Math.random() * this.listaPersonajes.length);
       this.personajeObtenido = this.listaPersonajes[random];
       this.pedirPj = true;
-      console.log("entre");
+    },
+
+    infoComics() {
+      localStorage.setItem(
+        "consultaComic",
+        "http://gateway.marvel.com/v1/public/comics?characters=" +
+          this.personajeObtenido.id +
+          "&orderBy=title&apikey=" +
+          publicKey
+      );
+      let filtros = Array(1);
+      filtros[0] = this.personajeObtenido.id;
+      localStorage.setItem("filtros", JSON.stringify(filtros));
+      this.$router.push("/comics");
     },
   },
 };

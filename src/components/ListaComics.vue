@@ -291,13 +291,17 @@ export default {
           "http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=" +
           publicKey;
       } else {
-        var filtrosGuardados = JSON.parse(localStorage.getItem("filtros"));
-        this.titulo = filtrosGuardados[0];
-        this.selectOrden = filtrosGuardados[1];
-        this.selectFormato = filtrosGuardados[2];
-        this.selectRangoFecha = filtrosGuardados[3];
-        this.idCreador = filtrosGuardados[4];
-        this.idPersonaje = filtrosGuardados[5];
+        let filtros = JSON.parse(localStorage.getItem("filtros"));
+        if (filtros.lenght > 1) {
+          this.titulo = filtros[0];
+          this.selectOrden = filtros[1];
+          this.selectFormato = filtros[2];
+          this.selectRangoFecha = filtros[3];
+          this.idCreador = filtros[4];
+          this.idPersonaje = filtros[5];
+        } else {
+          this.idPersonaje = filtros[0];
+        }
       }
       axios
         .get(`${consulta}`)
