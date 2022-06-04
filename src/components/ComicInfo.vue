@@ -395,7 +395,7 @@ export default {
 
 .cardPersonajes {
   width: 200px;
-  height: 370px;
+  height: 390px;
   margin-bottom: 20px;
   align-items: center;
 }

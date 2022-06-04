@@ -26,7 +26,6 @@
         <b-carousel
           v-if="opc.nombre == 'Comics'"
           slide
-          ref="Comics"
           img-width="200"
           img-height="350"
           :interval="3000"
@@ -45,7 +44,6 @@
         <!-- Para Personajes-->
         <b-carousel
           v-if="opc.nombre == 'Personajes'"
-          ref="Personajes"
           img-width="200"
           img-height="350"
           :interval="3000"
@@ -64,16 +62,17 @@
       </router-link>
     </b-col>
 
- 
     <b-col cols="12" sm="6" md="4" class="columnaOpcion">
-      <router-link to="identidadSecreta" style="text-decoration: none; color: inherit">
-      <div class="identidad">
-        <h3 class="titulo">Tu Identidad</h3>
-        <h3 class="tituloInferior">Secreta</h3>
-      </div>
-        </router-link>
+      <router-link
+        to="identidadSecreta"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="identidad">
+          <h3 class="titulo">Tu Identidad</h3>
+          <h3 class="tituloInferior">Secreta</h3>
+        </div>
+      </router-link>
     </b-col>
-
   </b-row>
 </template>
 
@@ -168,10 +167,6 @@ export default {
         });
     },
 
-    iniciar() {
-      this.$refs.Comics.start();
-      this.$refs.Personajes.start();
-    },
   },
 };
 </script>
@@ -248,6 +243,4 @@ export default {
   margin-left: 59.5px;
   color: black;
 }
-
-
 </style>

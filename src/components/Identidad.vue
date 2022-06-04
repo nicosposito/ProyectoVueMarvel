@@ -12,9 +12,7 @@
         >Volver al inicio
         <font-awesome-icon icon="home" />
       </b-button>
-      <v-spacer></v-spacer>
-      <h1>Descubre tu identidad secreta</h1>
-      <v-spacer></v-spacer>
+      <h1 style="margin-left:auto; margin-right: auto;">Identidad secreta</h1>
       <b-button class="botonNav" squared variant="light"
         >Ir a Personajes
         <font-awesome-icon icon="arrow-right" />
@@ -25,7 +23,7 @@
   <b-container class="containerCenter">
     <div v-if="!pedirPj">
       <b-carousel
-        ref="Personajes"
+        ref="caPersonajes"
         img-width="200"
         img-height="350"
         :interval="100"
@@ -168,7 +166,6 @@ export default {
   background: #dc3545;
   position: relative;
   width: 100%;
-  height: 62px;
   margin-bottom: 20px;
 }
 

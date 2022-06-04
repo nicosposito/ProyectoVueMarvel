@@ -20,7 +20,10 @@
       <h1>Comics</h1>
       <v-spacer></v-spacer>
       <b-button class="botonNav" squared variant="light"
-        >Ir a Personajes
+         @click="
+          reiniciarBusqueda();
+          this.$router.push('/personajes');
+        ">Ir a Personajes
         <font-awesome-icon icon="arrow-right" />
       </b-button>
     </b-nav>
@@ -140,14 +143,14 @@
   />
 
   <div v-if="!isLoading & (comics.length > 0)">
-    <b-row align-h="center">
+    <b-row>
       <b-col
         cols="12"
         sm="6"
         md="4"
         v-for="comic in comics"
         :key="comic.title"
-        style="width: inherit; padding-bottom: 20px"
+        style="width: inherit; padding-bottom: 20px; margin: auto;"
       >
         <router-link
           :to="{ name: 'comicinfo', params: { id: comic.id } }"
@@ -300,6 +303,7 @@ export default {
           this.idCreador = filtros[4];
           this.idPersonaje = filtros[5];
         } else {
+          //Proviene de identidad
           this.idPersonaje = filtros[0];
         }
       }
@@ -456,7 +460,9 @@ export default {
 .columna {
   float: left;
   width: 50%;
+
 }
+
 .divbotonfiltros {
   flex-direction: column;
   display: flex;
@@ -481,8 +487,6 @@ export default {
 .nav {
   background: #dc3545;
   position: relative;
-  width: 100%;
-  height: 62px;
 }
 
 .botonNav {
