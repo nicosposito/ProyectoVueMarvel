@@ -295,8 +295,8 @@ export default {
           publicKey;
       } else {
         let filtros = JSON.parse(localStorage.getItem("filtros"));
-        let leng = Object.keys(filtros).length;
-        if (leng == 6) {
+        let length = Object.keys(filtros).length;
+        if (length == 6) {
           this.titulo = filtros[0];
           this.selectOrden = filtros[1];
           this.selectFormato = filtros[2];

@@ -18,7 +18,7 @@
         squared
         variant="light"
         @click="this.$router.push('/personajes')"
-        >Ir a Personajes
+        >Ir a comics
         <font-awesome-icon icon="arrow-right" />
       </b-button>
     </b-nav>
