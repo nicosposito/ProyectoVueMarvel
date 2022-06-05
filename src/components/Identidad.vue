@@ -12,8 +12,12 @@
         >Volver al inicio
         <font-awesome-icon icon="home" />
       </b-button>
-      <h1 style="margin-left:auto; margin-right: auto;">Identidad secreta</h1>
-      <b-button class="botonNav" squared variant="light"
+      <h1 style="margin-left: auto; margin-right: auto">Identidad secreta</h1>
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="this.$router.push('/personajes')"
         >Ir a Personajes
         <font-awesome-icon icon="arrow-right" />
       </b-button>

@@ -9,21 +9,22 @@
         class="botonNav"
         squared
         variant="light"
-        @click="
-          reiniciarBusqueda();
-          this.$router.push('/');
-        "
+        @click="this.$router.push('/')"
         >Volver al inicio
         <font-awesome-icon icon="home" />
       </b-button>
       <v-spacer></v-spacer>
       <h1>Comics</h1>
       <v-spacer></v-spacer>
-      <b-button class="botonNav" squared variant="light"
-         @click="
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="
           reiniciarBusqueda();
           this.$router.push('/personajes');
-        ">Ir a Personajes
+        "
+        >Ir a Personajes
         <font-awesome-icon icon="arrow-right" />
       </b-button>
     </b-nav>
@@ -143,14 +144,14 @@
   />
 
   <div v-if="!isLoading & (comics.length > 0)">
-    <b-row>
+    <b-row class="justify-content-center">
       <b-col
         cols="12"
         sm="6"
         md="4"
         v-for="comic in comics"
         :key="comic.title"
-        style="width: inherit; padding-bottom: 20px; margin: auto;"
+        style="width: inherit; padding-bottom: 20px"
       >
         <router-link
           :to="{ name: 'comicinfo', params: { id: comic.id } }"
@@ -177,7 +178,7 @@
 
 
 <script>
-import { publicKey, privateKey } from "../marvel";
+import { publicKey } from "../marvel";
 import axios from "axios";
 export default {
   name: "ListaComics",
@@ -283,7 +284,6 @@ export default {
     this.getPersonajes();
     this.getCreadores();
     this.getComics();
-    localStorage.clear();
   },
 
   methods: {
@@ -295,7 +295,8 @@ export default {
           publicKey;
       } else {
         let filtros = JSON.parse(localStorage.getItem("filtros"));
-        if (filtros.lenght > 1) {
+        let leng = Object.keys(filtros).length;
+        if (leng == 6) {
           this.titulo = filtros[0];
           this.selectOrden = filtros[1];
           this.selectFormato = filtros[2];
@@ -460,7 +461,6 @@ export default {
 .columna {
   float: left;
   width: 50%;
-
 }
 
 .divbotonfiltros {

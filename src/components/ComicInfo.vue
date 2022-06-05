@@ -130,8 +130,8 @@
             <label>Links</label>
           </div>
           <b-button
-            variant="outline-dark"
             v-for="tipo in comic.urls"
+            :variant="classBoton(tipo.type)"
             :key="tipo.type"
             :href="tipo.url"
             class="botonComic"
@@ -154,7 +154,7 @@
       </b-col>
     </b-row>
     <hr />
-    <b-row class="mb-2">
+    <b-row class="mb-2 justify-content-center">
       <!--Personajes-->
       <div class="centerTitulo">
         <h1>Personajes</h1>
@@ -178,10 +178,7 @@
           />
           <div class="card-body">
             <h4 class="card-title">{{ pj.nombre }}</h4>
-            <a
-              class="btn btn-danger botonSaberMas"
-              href="#"
-              role="button"
+            <a class="btn btn-danger botonSaberMas" href="#" role="button"
               >Saber más</a
             >
           </div>
@@ -321,6 +318,13 @@ export default {
       if (precio == "printPrice") return "En físico:";
       else return "En dígital:";
     },
+
+    classBoton(nombre) {
+      if (nombre == "detail") return "outline-primary";
+      else if (nombre == "purchase") return "outline-danger";
+      else if (nombre == "reader") return "outline-dark";
+      else return "outline-success";
+    },
   },
 };
 </script>
@@ -390,6 +394,7 @@ export default {
 
 .cardCreadores {
   width: 304px;
+  height: 120px;
   margin-bottom: 20px;
 }
 

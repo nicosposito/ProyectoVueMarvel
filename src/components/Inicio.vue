@@ -111,6 +111,7 @@ export default {
     return { urlLogo };
   },
   mounted() {
+    localStorage.clear();
     this.getImgComics();
     this.getImgPersonajes();
   },
