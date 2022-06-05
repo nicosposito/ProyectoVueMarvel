@@ -126,7 +126,7 @@
   />
 
   <div v-if="!isLoading & (personajes.length > 0)">
-    <b-row align-h="center">
+    <b-row class="grid">
       <b-col
         cols="12"
         sm="6"
@@ -412,5 +412,11 @@ export default {
 
 * {
   font-family: komikax;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 270px);
+  justify-content: center;
 }
 </style>

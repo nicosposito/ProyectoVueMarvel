@@ -144,7 +144,7 @@
   />
 
   <div v-if="!isLoading & (comics.length > 0)">
-    <b-row class="justify-content-center">
+    <b-row class="grid">
       <b-col
         cols="12"
         sm="6"
@@ -497,4 +497,12 @@ export default {
 * {
   font-family: komikax;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 270px);
+  justify-content: center;
+}
+
+
 </style>

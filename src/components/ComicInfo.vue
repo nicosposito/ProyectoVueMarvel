@@ -154,16 +154,15 @@
       </b-col>
     </b-row>
     <hr />
-    <b-row class="mb-2 justify-content-center">
-      <!--Personajes-->
-      <div class="centerTitulo">
-        <h1>Personajes</h1>
-      </div>
+    <!--Personajes-->
+    <div class="centerTitulo">
+      <h1>Personajes</h1>
+    </div>
+    <b-row class="mb-2 justify-content-center gridPj">
       <b-col
         cols="12"
         sm="6"
         md="4"
-        class="columna mx-auto"
         v-for="pj in personajes"
         :key="pj.nombre"
         style="width: inherit"
@@ -198,11 +197,11 @@
       </b-col>
     </b-row>
     <hr />
-    <b-row>
-      <!--Creadores-->
-      <div class="centerTitulo">
-        <h1>Creadores</h1>
-      </div>
+    <!--Creadores-->
+    <div class="centerTitulo">
+      <h1>Creadores</h1>
+    </div>
+    <b-row class="mb-2 gridCreadores">
       <b-col
         cols="12"
         sm="6"
@@ -411,5 +410,17 @@ export default {
   left: 50%;
   width: 150px;
   bottom: 10px;
+}
+
+.gridPj {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px);
+  justify-content: center;
+}
+
+.gridCreadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 324px);
+  justify-content: center;
 }
 </style>
