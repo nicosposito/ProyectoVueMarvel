@@ -1,6 +1,13 @@
 <template>
   <!-- Fondo -->
   <span class="bg"></span>
+ 
+ <vue-loading
+    v-model:active="isLoading"
+    :can-cancel="false"
+    :is-full-page="false"
+    color="#dc3545"
+  />
 
   <div>
     <b-nav class="nav">
