@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ListaComicsView from '../views/ListaComicsView.vue'
 import ComicInfo from '../views/ComicInfoView.vue'
 import ListaPersonajesView from '../views/ListaPersonajesView.vue'
+import PersonajeInfo from '../views/PersonajeInfoView.vue'
 const routes = [
   {
     path: '/',
@@ -24,7 +25,11 @@ const routes = [
     name: 'personajes',
     component: ListaPersonajesView,
   },
-
+  {
+    path: '/personaje/:id',
+    name: 'personajeinfo',
+    component: PersonajeInfo,
+  },
 ]
 
 const router = createRouter({

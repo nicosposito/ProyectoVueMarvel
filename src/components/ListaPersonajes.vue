@@ -130,11 +130,11 @@
         style="width: inherit; padding-bottom: 20px"
       >
       
-<!--      <router-link
-          :to="{ name: 'personajeInfo', params: { id: personaje.id } }"
+      <router-link
+          :to="{ name: 'personajeinfo', params: { id: personaje.id } }"
           style="text-decoration: none; color: inherit"
         >
--->
+
           <b-card 
             :img-src="personaje.thumbnail.path + '.' + personaje.thumbnail.extension"
             img-alt="Img"
@@ -149,9 +149,8 @@
               </p>
             </div>
           </b-card>
-<!--
+
         </router-link>
--->
       </b-col>
     </b-row>
   </div>
