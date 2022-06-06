@@ -16,7 +16,14 @@
       <v-spacer></v-spacer>
       <h1>Comics</h1>
       <v-spacer></v-spacer>
-      <b-button class="botonNav" squared variant="light"
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="
+          reiniciarBusqueda();
+          this.$router.push('/personajes');
+        "
         >Ir a Personajes
         <font-awesome-icon icon="arrow-right" />
       </b-button>
@@ -119,7 +126,7 @@
             variant="danger"
             @click="
               isLoading = !isLoading;
-              getComics();
+              reiniciarBusqueda();
             "
             >Ver comics iniciales</b-button
           >
@@ -137,7 +144,7 @@
   />
 
   <div v-if="!isLoading & (comics.length > 0)">
-    <b-row align-h="center">
+    <b-row class="grid">
       <b-col
         cols="12"
         sm="6"
@@ -171,7 +178,7 @@
 
 
 <script>
-import { publicKey, privateKey } from "../marvel";
+import { publicKey } from "../marvel";
 import axios from "axios";
 export default {
   name: "ListaComics",
@@ -262,8 +269,6 @@ export default {
           value: "collection",
         },
       ],
-      mostrarFiltros: ["Mas filtros", "Ocultar filtros"],
-
       selectOrden: "title",
       selectFormato: "",
       selectRangoFecha: "",
@@ -283,10 +288,28 @@ export default {
 
   methods: {
     getComics() {
+      let consulta = localStorage.getItem("consultaComic");
+      if (consulta == null) {
+        consulta =
+          "http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=" +
+          publicKey;
+      } else {
+        let filtros = JSON.parse(localStorage.getItem("filtros"));
+        let length = Object.keys(filtros).length;
+        if (length == 6) {
+          this.titulo = filtros[0];
+          this.selectOrden = filtros[1];
+          this.selectFormato = filtros[2];
+          this.selectRangoFecha = filtros[3];
+          this.idCreador = filtros[4];
+          this.idPersonaje = filtros[5];
+        } else {
+          //Proviene de identidad
+          this.idPersonaje = filtros[0];
+        }
+      }
       axios
-        .get(
-          `http://gateway.marvel.com/v1/public/comics?orderBy=title&apikey=${publicKey}`
-        )
+        .get(`${consulta}`)
         .then((result) => {
           result.data.data.results.forEach((item) => {
             this.comics.push(item);
@@ -339,6 +362,8 @@ export default {
     busqueda() {
       this.isLoading = true;
       let consulta = "";
+      let filtros = Array(5);
+
       if (this.titulo != "") {
         consulta = "titleStartsWith=" + this.titulo;
       }
@@ -372,10 +397,36 @@ export default {
             this.comics.push(item);
           });
           this.isLoading = false;
+          localStorage.setItem(
+            "consultaComic",
+            "http://gateway.marvel.com/v1/public/comics?" +
+              consulta +
+              "&apikey=" +
+              publicKey
+          );
+          filtros[0] = this.titulo;
+          filtros[1] = this.selectOrden;
+          filtros[2] = this.selectFormato;
+          filtros[3] = this.selectRangoFecha;
+          filtros[4] = this.idCreador;
+          filtros[5] = this.idPersonaje;
+          localStorage.setItem("filtros", JSON.stringify(filtros));
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    reiniciarBusqueda() {
+      localStorage.clear();
+      this.getComics();
+      this.selectOrden = "title";
+      this.selectFormato = "";
+      this.selectRangoFecha = "";
+      this.titulo = "";
+      this.idPersonaje = "";
+      this.idCreador = "";
+      this.filtrosAdiccionales = false;
     },
   },
 };
@@ -411,6 +462,7 @@ export default {
   float: left;
   width: 50%;
 }
+
 .divbotonfiltros {
   flex-direction: column;
   display: flex;
@@ -435,8 +487,6 @@ export default {
 .nav {
   background: #dc3545;
   position: relative;
-  width: 100%;
-  height: 62px;
 }
 
 .botonNav {
@@ -447,4 +497,12 @@ export default {
 * {
   font-family: komikax;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 270px);
+  justify-content: center;
+}
+
+
 </style>

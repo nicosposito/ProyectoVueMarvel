@@ -1,24 +1,28 @@
-# proyectovuemarvel
+# ProyectoVueMarvel
 
-## Project setup
+## Instalar nodejs y npm por terminal (Ubuntu)
+
+### Primero instalamos nvm (node version manager) de la siguiente manera:
+```
+sudo apt install curl
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+```
+### Reiniciamos la terminal o utilizamos el siguiente comando:
+```
+source ~/.bashrc
+```
+### Instalamos node y npm con el siguiente comando:
+```
+nvm install node
+```
+## En el directorio del proyecto:
+
+### Instalar dependencias
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Para compilar y hacer recargas en vivo en desarrollo
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

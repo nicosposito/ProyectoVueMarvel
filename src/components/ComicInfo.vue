@@ -130,8 +130,8 @@
             <label>Links</label>
           </div>
           <b-button
-            variant="outline-dark"
             v-for="tipo in comic.urls"
+            :variant="classBoton(tipo.type)"
             :key="tipo.type"
             :href="tipo.url"
             class="botonComic"
@@ -154,16 +154,15 @@
       </b-col>
     </b-row>
     <hr />
-    <b-row class="mb-2">
-      <!--Personajes-->
-      <div class="centerTitulo">
-        <h1>Personajes</h1>
-      </div>
+    <!--Personajes-->
+    <div class="centerTitulo">
+      <h1>Personajes</h1>
+    </div>
+    <b-row class="mb-2 justify-content-center gridPj">
       <b-col
         cols="12"
         sm="6"
         md="4"
-        class="columna mx-auto"
         v-for="pj in personajes"
         :key="pj.nombre"
         style="width: inherit"
@@ -178,10 +177,7 @@
           />
           <div class="card-body">
             <h4 class="card-title">{{ pj.nombre }}</h4>
-            <a
-              class="btn btn-danger botonSaberMas"
-              href="#"
-              role="button"
+            <a class="btn btn-danger botonSaberMas" href="#" role="button"
               >Saber más</a
             >
           </div>
@@ -201,11 +197,11 @@
       </b-col>
     </b-row>
     <hr />
-    <b-row>
-      <!--Creadores-->
-      <div class="centerTitulo">
-        <h1>Creadores</h1>
-      </div>
+    <!--Creadores-->
+    <div class="centerTitulo">
+      <h1>Creadores</h1>
+    </div>
+    <b-row class="mb-2 gridCreadores">
       <b-col
         cols="12"
         sm="6"
@@ -321,6 +317,13 @@ export default {
       if (precio == "printPrice") return "En físico:";
       else return "En dígital:";
     },
+
+    classBoton(nombre) {
+      if (nombre == "detail") return "outline-primary";
+      else if (nombre == "purchase") return "outline-danger";
+      else if (nombre == "reader") return "outline-dark";
+      else return "outline-success";
+    },
   },
 };
 </script>
@@ -390,12 +393,13 @@ export default {
 
 .cardCreadores {
   width: 304px;
+  height: 120px;
   margin-bottom: 20px;
 }
 
 .cardPersonajes {
   width: 200px;
-  height: 370px;
+  height: 390px;
   margin-bottom: 20px;
   align-items: center;
 }
@@ -406,5 +410,17 @@ export default {
   left: 50%;
   width: 150px;
   bottom: 10px;
+}
+
+.gridPj {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px);
+  justify-content: center;
+}
+
+.gridCreadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 324px);
+  justify-content: center;
 }
 </style>

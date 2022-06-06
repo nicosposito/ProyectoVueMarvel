@@ -17,7 +17,7 @@
       cols="12"
       sm="6"
       md="4"
-      class="columnaOpcion"
+      class="columnaOpcion mb-4"
       v-for="opc in opciones"
       :key="opc.nombre"
     >
@@ -26,7 +26,6 @@
         <b-carousel
           v-if="opc.nombre == 'Comics'"
           slide
-          ref="Comics"
           img-width="200"
           img-height="350"
           :interval="3000"
@@ -45,7 +44,6 @@
         <!-- Para Personajes-->
         <b-carousel
           v-if="opc.nombre == 'Personajes'"
-          ref="Personajes"
           img-width="200"
           img-height="350"
           :interval="3000"
@@ -64,21 +62,16 @@
       </router-link>
     </b-col>
 
-    <b-col cols="12" sm="6" md="4" class="columnaOpcion" v-b-modal.modal-1>
-      <div class="identidad">
-        <h3 class="titulo">Tu Identidad</h3>
-        <h3 class="tituloInferior">Secreta</h3>
-      </div>
-    
-
-        <!--
-      -Carrousel pasando las img de los personajes rapido
-      -Boton go y stop
-      -loading screen
-      -aparezca img personaje con botones de buscar comics y/o info del personaje
-      -->      
-
-      
+    <b-col cols="12" sm="6" md="4" class="columnaOpcion">
+      <router-link
+        to="identidadSecreta"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="identidad">
+          <h3 class="titulo">Tu Identidad</h3>
+          <h3 class="tituloInferior">Secreta</h3>
+        </div>
+      </router-link>
     </b-col>
   </b-row>
 </template>
@@ -118,6 +111,7 @@ export default {
     return { urlLogo };
   },
   mounted() {
+    localStorage.clear();
     this.getImgComics();
     this.getImgPersonajes();
   },
@@ -174,10 +168,6 @@ export default {
         });
     },
 
-    iniciar() {
-      this.$refs.Comics.start();
-      this.$refs.Personajes.start();
-    },
   },
 };
 </script>
@@ -248,12 +238,10 @@ export default {
 }
 
 .tituloInferior {
-  bottom: 0;
+  bottom: 20px;
   position: absolute;
   width: 119px;
   margin-left: 59.5px;
   color: black;
 }
-
-
 </style>

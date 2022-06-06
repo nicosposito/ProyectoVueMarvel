@@ -16,6 +16,14 @@
       <v-spacer></v-spacer>
       <h1>Personajes</h1>
       <v-spacer></v-spacer>
+      <b-button
+        class="botonNav"
+        squared
+        variant="light"
+        @click="this.$router.push('/comics')"
+        >Ir a comics
+        <font-awesome-icon icon="arrow-right" />
+      </b-button>
     </b-nav>
   </div>
 
@@ -70,8 +78,6 @@
                 :options="comics"
               ></b-form-select>
             </b-form-group>
-
-            
           </b-col>
 
           <b-col class="columna">
@@ -92,7 +98,7 @@
         /></b-button>
       </div>
 
-      <div v-if="!isLoading & (comics.length == 0)" class="itemsCentrados">
+      <div v-if="!isLoading & (personajes.length == 0)" class="itemsCentrados">
         <b-card
           id="cardNoResultados"
           title="No se encontraron resultados :("
@@ -102,16 +108,16 @@
             variant="danger"
             @click="
               isLoading = !isLoading;
-              getComics();
+              reiniciarBusqueda();
             "
-            >Ver comics iniciales</b-button
+            >Ver personajes iniciales</b-button
           >
         </b-card>
       </div>
     </b-card>
   </div>
 
-  <!--- Comics !-->
+  <!--- Personajes !-->
   <vue-loading
     v-model:active="isLoading"
     :can-cancel="false"
@@ -120,7 +126,7 @@
   />
 
   <div v-if="!isLoading & (personajes.length > 0)">
-    <b-row align-h="center">
+    <b-row class="grid">
       <b-col
         cols="12"
         sm="6"
@@ -129,7 +135,6 @@
         :key="personaje.name"
         style="width: inherit; padding-bottom: 20px"
       >
-      
       <router-link
           :to="{ name: 'personajeinfo', params: { id: personaje.id } }"
           style="text-decoration: none; color: inherit"
@@ -154,12 +159,11 @@
       </b-col>
     </b-row>
   </div>
-
 </template>
 
 
 <script>
-import { publicKey, privateKey } from "../marvel";
+import { publicKey } from "../marvel";
 import axios from "axios";
 export default {
   name: "ListaPersonajes",
@@ -200,61 +204,7 @@ export default {
           value: "-modified",
         },
       ],
-      formato: [
-        {
-          text: "Seleccione el formato",
-          value: "",
-        },
-        {
-          text: "Comic",
-          value: "comic",
-        },
-        {
-          text: "Coleccion",
-          value: "collection",
-        },
-      ],
-      rangoFecha: [
-        {
-          text: "Seleccione un rango",
-          value: "",
-        },
-        {
-          text: "Última semana",
-          value: "lastWeek",
-        },
-        {
-          text: "Esta semana",
-          value: "thisWeek",
-        },
-        {
-          text: "Siguiente semana",
-          value: "nextWeek",
-        },
-        {
-          text: "Este mes",
-          value: "thisMonth",
-        },
-      ],
-      formatos: [
-        {
-          text: "Seleccione un formato",
-          value: "",
-        },
-        {
-          text: "Comic",
-          value: "comic",
-        },
-        {
-          text: "Coleccion",
-          value: "collection",
-        },
-      ],
-      mostrarFiltros: ["Mas filtros", "Ocultar filtros"],
-
       selectOrden: "name",
-      selectFormato: "",
-      selectRangoFecha: "",
       nombre: "",
       idComic: "",
       idSerie: "",
@@ -289,10 +239,21 @@ export default {
     },
 
     getPersonajes() {
+      let consulta = localStorage.getItem("consultaPersonaje");
+      if (consulta == null) {
+        consulta =
+          "http://gateway.marvel.com/v1/public/characters?orderBy=name&apikey=" +
+          publicKey;
+      } else {
+        let filtros = JSON.parse(localStorage.getItem("filtrosPj"));
+        console.log(filtros);
+        this.nombre = filtros[0];
+        this.selectOrden = filtros[1];
+        this.idComic = filtros[2];
+        this.idSerie = filtros[3];
+      }
       axios
-        .get(
-          `http://gateway.marvel.com/v1/public/characters?orderBy=name&apikey=${publicKey}`
-        )
+        .get(`${consulta}`)
         .then((result) => {
           result.data.data.results.forEach((item) => {
             this.personajes.push(item);
@@ -325,6 +286,7 @@ export default {
 
     busqueda() {
       this.isLoading = true;
+      let filtros = Array(3);
       let consulta = "";
       if (this.nombre != "") {
         consulta += "name=" + this.nombre;
@@ -342,7 +304,6 @@ export default {
         }
       }
       this.personajes = [];
-      console.log("-->>>"+ consulta+this.filtrosAdiccionales );
       axios
         .get(
           `http://gateway.marvel.com/v1/public/characters?${consulta}&apikey=${publicKey}`
@@ -352,10 +313,33 @@ export default {
             this.personajes.push(item);
           });
           this.isLoading = false;
+          localStorage.setItem(
+            "consultaPersonaje",
+            "http://gateway.marvel.com/v1/public/characters?" +
+              consulta +
+              "&apikey=" +
+              publicKey
+          );
+          filtros[0] = this.nombre;
+          filtros[1] = this.selectOrden;
+          filtros[2] = this.idComic;
+          filtros[3] = this.idSerie;
+          localStorage.setItem("filtrosPj", JSON.stringify(filtros));
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    reiniciarBusqueda() {
+      localStorage.clear();
+      this.getPersonajes();
+      this.selectOrden = "name";
+      this.selectFormato = "";
+      this.nombre = "";
+      this.idComic = "";
+      this.idSerie = "";
+      this.filtrosAdiccionales = false;
     },
   },
 };
@@ -426,5 +410,11 @@ export default {
 
 * {
   font-family: komikax;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 270px);
+  justify-content: center;
 }
 </style>
