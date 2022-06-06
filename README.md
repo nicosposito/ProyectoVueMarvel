@@ -17,7 +17,7 @@ nvm install node
 ```
 ## En el directorio del proyecto:
 
-## Instalar dependencias
+### Instalar dependencias
 ```
 npm install
 ```
