@@ -24,7 +24,7 @@
       <router-link :to="opc.url" style="text-decoration: none; color: inherit">
         <!-- Para comics-->
         <b-carousel
-          v-if="opc.nombre == 'Comics'"
+          v-if="opc.nombre == 'Cómics'"
           slide
           img-width="200"
           img-height="350"
@@ -85,7 +85,7 @@ export default {
     return {
       opciones: [
         {
-          nombre: "Comics",
+          nombre: "Cómics",
           url: "/comics",
         },
         {

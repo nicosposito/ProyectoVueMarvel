@@ -14,7 +14,7 @@
         <font-awesome-icon icon="home" />
       </b-button>
       <v-spacer></v-spacer>
-      <h1>Comics</h1>
+      <h1>Cómics</h1>
       <v-spacer></v-spacer>
       <b-button
         class="botonNav"
@@ -146,9 +146,6 @@
   <div v-if="!isLoading & (comics.length > 0)">
     <b-row class="grid">
       <b-col
-        cols="12"
-        sm="6"
-        md="4"
         v-for="comic in comics"
         :key="comic.title"
         style="width: inherit; padding-bottom: 20px"

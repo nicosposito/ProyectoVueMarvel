@@ -21,7 +21,7 @@
         squared
         variant="light"
         @click="this.$router.push('/comics')"
-        >Ir a comics
+        >Ir a cómics
         <font-awesome-icon icon="arrow-right" />
       </b-button>
     </b-nav>
@@ -71,7 +71,7 @@
       <b-collapse id="collapse-2">
         <b-row>
           <b-col class="columna">
-            <b-form-group label="Comics:" label-for="comics">
+            <b-form-group label="Cómics:" label-for="comics">
               <b-form-select
                 id="comics"
                 v-model="idComic"
@@ -128,9 +128,6 @@
   <div v-if="!isLoading & (personajes.length > 0)">
     <b-row class="grid">
       <b-col
-        cols="12"
-        sm="6"
-        md="4"
         v-for="personaje in personajes"
         :key="personaje.name"
         style="width: inherit; padding-bottom: 20px"
@@ -172,7 +169,7 @@ export default {
       personajes: [],
       comics: [
         {
-          text: "Seleccione comic",
+          text: "Seleccione cómic",
           value: "",
         },
       ],

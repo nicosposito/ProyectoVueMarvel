@@ -17,7 +17,7 @@
         class="botonNav"
         squared
         variant="light"
-        @click="this.$router.push('/personajes')"
+        @click="this.$router.push('/comics')"
         >Ir a comics
         <font-awesome-icon icon="arrow-right" />
       </b-button>
@@ -55,9 +55,9 @@
         <h1 id="pjNombre">Eres {{ personajeObtenido.nombre }} !!!</h1>
         <div class="mt-4">
           <b-button variant="danger" class="mr-1" @click="infoComics()"
-            >Ver comics</b-button
+            >Ver cómics</b-button
           >
-          <b-button variant="primary">Ver información</b-button>
+          <b-button variant="primary" @click="this.$router.push({ name: 'personajeinfo', params: { id: personajeObtenido.id } })">Ver información</b-button>
         </div>
       </div>
     </div>

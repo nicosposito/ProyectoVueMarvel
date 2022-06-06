@@ -17,7 +17,7 @@
         squared
         variant="light"
         @click="this.$router.push('/comics')"
-        >Volver a los comics
+        >Volver a los cómics
         <font-awesome-icon icon="book" />
       </b-button>
       <v-spacer></v-spacer>
@@ -134,6 +134,7 @@
             :variant="classBoton(tipo.type)"
             :key="tipo.type"
             :href="tipo.url"
+            target="blank"
             class="botonComic"
             >{{ traducirBoton(tipo.type) }}
             <font-awesome-icon
@@ -159,14 +160,7 @@
       <h1>Personajes</h1>
     </div>
     <b-row class="mb-2 justify-content-center gridPj">
-      <b-col
-        cols="12"
-        sm="6"
-        md="4"
-        v-for="pj in personajes"
-        :key="pj.nombre"
-        style="width: inherit"
-      >
+      <b-col v-for="pj in personajes" :key="pj.nombre" style="width: inherit">
         <div class="card cardPersonajes text-center">
           <img
             :src="pj.imagen"
@@ -177,20 +171,26 @@
           />
           <div class="card-body">
             <h4 class="card-title">{{ pj.nombre }}</h4>
-            <a class="btn btn-danger botonSaberMas" href="#" role="button"
+            <a
+              class="btn btn-danger botonSaberMas"
+              @click="
+                this.$router.push({
+                  name: 'personajeinfo',
+                  params: { id: pj.id },
+                })
+              "
+              role="button"
               >Saber más</a
             >
           </div>
         </div>
-        <!--Si no hay-->
       </b-col>
+    </b-row>
+    <b-row class="mb-2 justify-content-center"  v-if="comic.characters.returned == 0">
+      <!--Si no hay-->
       <b-col
-        cols="12"
-        sm="6"
-        md="4"
-        class="columna mx-auto"
+        class="columna mx-auto prueba"
         style="width: inherit; max-width: 20rem"
-        v-if="comic.characters.returned == 0"
       >
         <b-card title="No se encontraron Personajes" class="text-center">
         </b-card>
@@ -203,9 +203,6 @@
     </div>
     <b-row class="mb-2 gridCreadores">
       <b-col
-        cols="12"
-        sm="6"
-        md="4"
         class="columna mx-auto"
         v-for="creador in comic.creators.items"
         :key="creador.name"
@@ -217,6 +214,8 @@
           </b-card-text>
         </b-card>
       </b-col>
+    </b-row>
+    <b-row class="mb-2 justify-content-center"  v-if="comic.creators.returned == 0">
       <!--Si no hay-->
       <b-col
         cols="12"
@@ -224,12 +223,12 @@
         md="4"
         class="columna mx-auto"
         style="width: inherit; max-width: 20rem"
-        v-if="comic.creators.returned == 0"
       >
         <b-card title="No se encontraron Creadores" class="text-center">
         </b-card>
       </b-col>
     </b-row>
+     <br />
   </b-container>
 </template>
 

@@ -35,7 +35,11 @@
   </div>
 
   <!-- Informacion -->
-  <b-container class="info" v-for="personaje in infoPersonaje" :key="personaje.id">
+  <b-container
+    class="info"
+    v-for="personaje in infoPersonaje"
+    :key="personaje.id"
+  >
     <h1></h1>
     <div id="tituloComic" class="centerTitulo">
       <h1>{{ personaje.name }}</h1>
@@ -43,13 +47,12 @@
     <hr />
     <b-row align-h="center">
       <!-- Imagen -->
-      <b-col class="columna divImg" cols="12" sm="6" md="4">
+      <b-col class="columna divImg">
         <b-img
           :src="personaje.thumbnail.path + '.' + personaje.thumbnail.extension"
           fluid
           v-bind="mainProps"
           class="centerImg"
-
         ></b-img>
       </b-col>
       <b-col style="border-left: #fff">
@@ -58,97 +61,82 @@
           {{ personaje.description }} <br
         /></label>
 
-        <label v-if="personaje.description == null || personaje.description==''"
+        <label
+          v-if="personaje.description == null || personaje.description == ''"
           >No se a proprocionado una descripción <br
         /></label>
 
         <!-- HTML Codes for Symbols and Punctuation !-->
         <hr />
         <!-- Formato -->
-        <label> Fecha de modificado: {{ personaje.modified }}</label> <br />
+        <label> Fecha de modificado: {{ soloFecha(personaje.modified) }}</label>
+        <br />
         <hr />
         <div style="display: grid">
           <div class="text-center">
             <label>Links</label>
           </div>
           <b-button
-              variant="outline-dark"
-              v-for="tipo in personaje.urls"
-              :key="tipo.type"
-              :href="tipo.url"
-              target="blank"
-              class="botonPersonaje"
-              
-              >{{ traducirBoton(tipo.type) }}
-              <font-awesome-icon
-                v-if="tipo.type == 'detail'"
-                icon="circle-info"
-              />
-              <font-awesome-icon
-                v-if="tipo.type == 'purchase'"
-                icon="cart-shopping"
-              />
-              <font-awesome-icon v-if="tipo.type == 'reader'" icon="book-open" />
-              <font-awesome-icon
-                v-if="tipo.type == 'inAppLink'"
-                icon="mobile-screen-button"
-              />
+            v-for="tipo in personaje.urls"
+            :variant="classBoton(tipo.type)"
+            :key="tipo.type"
+            :href="tipo.url"
+            target="blank"
+            class="botonPersonaje"
+            >{{ traducirBoton(tipo.type) }}
+            <font-awesome-icon
+              v-if="tipo.type == 'detail'"
+              icon="circle-info"
+            />
+
+            <font-awesome-icon v-if="tipo.type == 'wiki'" icon="book-open" />
+            <font-awesome-icon
+              v-if="tipo.type == 'comiclink'"
+              icon="mobile-screen-button"
+            />
           </b-button>
         </div>
       </b-col>
-
     </b-row>
-    <hr/>
-    <b-row class="mb-2">
+    <hr />
+    <div class="centerTitulo">
+      <h1>Últimos cómics</h1>
+    </div>
+    <b-row class="mb-2 grid">
       <!--Comics-->
-      <div class="centerTitulo">
-        <h1>Comics</h1>
-      </div>
       <b-col
-        cols="12"
-        sm="6"
-        md="4"
         class="columna mx-auto"
         v-for="comic in comics"
         :key="comic.title"
         style="width: inherit"
       >
         <div class="card cardComics text-center">
-          <router-link
-            :to="{ name: 'comicinfo', params: { id: comic.id } }"
-            style="text-decoration: none; color: inherit">
-            <img
-              :src="comic.imagen"
-              alt="Image"
-              class="card-img-top"
-            />
-          </router-link>
+          <img :src="comic.imagen" alt="Image" class="card-img-top" />
           <div class="card-body">
             <h5 class="card-title">{{ comic.title }}</h5>
-            <br/>
+            <br />
             <a
               class="btn btn-danger botonSaberMas"
-              href="#"
+              @click="
+                this.$router.push({
+                  name: 'comicinfo',
+                  params: { id: comic.id },
+                })
+              "
               role="button"
-              >Saber más</a>
+              >Saber más</a
+            >
           </div>
-          
         </div>
-        <!--Si no hay-->
-      </b-col>
-      <b-col
-        cols="12"
-        sm="6"
-        md="4"
-        class="columna mx-auto"
-        style="width: inherit; max-width: 20rem"
-        v-if="comics.length == 0"
-      >
-        <b-card title="No se encontraron Comics" class="text-center">
-        </b-card>
       </b-col>
     </b-row>
-    <br/>
+    <!--Si no hay-->
+    <b-row class="mb-2" v-if="comics.length == 0">
+      <b-col class="columna mx-auto" style="width: inherit; max-width: 20rem">
+        <b-card title="No se encontraron cómics" class="text-center"> </b-card>
+      </b-col>
+    </b-row>
+    <br />
   </b-container>
 </template>
 
@@ -174,8 +162,8 @@ export default {
   },
   mounted() {
     this.id = this.$route.params.id;
-    this.getPersonaje();
     this.getComics();
+    this.getPersonaje();
   },
   methods: {
     getPersonaje() {
@@ -191,12 +179,12 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-        this.isLoading = false;
+      this.isLoading = false;
     },
     getComics() {
       axios
         .get(
-          `http://gateway.marvel.com/v1/public/characters/${this.id}/comics?apikey=${publicKey}`
+          `http://gateway.marvel.com/v1/public/characters/${this.id}/comics?orderBy=-onsaleDate&limit=12&apikey=${publicKey}`
         )
         .then((result) => {
           result.data.data.results.forEach((item) => {
@@ -215,24 +203,18 @@ export default {
 
     traducirBoton(nombre) {
       if (nombre == "detail") return "Más detalles";
-      else if (nombre == "purchase") return "Comprar";
-      else if (nombre == "reader") return "Leer";
-      else return "Ver en app";
+      else if (nombre == "wiki") return "Wiki";
+      else return "Comics en la app";
     },
 
-    traducirSalidas(nombre) {
-      if (nombre == "onsaleDate") return "Formato físico:";
-      else if (nombre == "focDate") return "Fin pre-orden:";
-      else if (nombre == "unlimitedDate") return "Versión unlimited:";
-      else return "Formato digital:";
-    },
     soloFecha(fecha) {
       return fecha.slice(0, 10);
     },
 
-    traducirPrecio(precio) {
-      if (precio == "printPrice") return "En físico:";
-      else return "En dígital:";
+    classBoton(nombre) {
+      if (nombre == "detail") return "outline-primary";
+      else if (nombre == "wiki") return "outline-success";
+      else return "outline-danger";
     },
   },
 };
@@ -286,15 +268,15 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height:400px;
-  width:auto;
+  max-height: 400px;
+  width: auto;
 }
 
 .divImg {
   position: relative;
   margin-left: 20px;
   margin-right: 20px;
-  min-height:400px;
+  min-height: 400px;
 }
 
 .botonPersonaje {
@@ -322,16 +304,21 @@ export default {
   width: 150px;
   bottom: 10px;
 }
-.card-img-top{
-  width:200px;
-  height:200px;
+.card-img-top {
+  width: 200px;
+  height: 200px;
 }
-.cardComics{
-  margin:10px 10px auto auto ;
-  padding:15px;
-  border:none;
+.cardComics {
+  margin: 20px 20px auto auto;
+  padding: 15px;
+  width: 300px;
+  height: 410px;
+  align-items: center;
 }
-.cardComics h5{
-  max-width:200px
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 320px);
+  justify-content: center;
 }
 </style>
